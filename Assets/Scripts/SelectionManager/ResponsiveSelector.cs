@@ -5,13 +5,14 @@ using UnityEngine;
 public class ResponsiveSelector : MonoBehaviour, ISelector
 {
     [SerializeField] private List<Selectable> selectables;
-    [SerializeField] private float threshold = 0.2f;
+    [SerializeField] private float threshold = 0.98f;
     private Transform _selection;
 
     public void Check(Ray ray)
     {
         _selection = null;
 
+        float closest = 0;
         for (int i = 0; i < selectables.Count; i++)
         {
             // dot product raycast checking 
@@ -20,6 +21,12 @@ public class ResponsiveSelector : MonoBehaviour, ISelector
 
             var lookPercentage = Vector3.Dot(vector1.normalized, vector2.normalized);
             selectables[i].LookPercentage = lookPercentage;
+
+            if (lookPercentage > threshold && lookPercentage > closest)
+            {
+                closest = lookPercentage;
+                _selection = selectables[i].transform;
+            }
         }
 
     }
