@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MainCameraRayCastProvider : IRayProvider
+public class MainCameraRayCastProvider : MonoBehaviour, IRayProvider
 {
     public Ray CreateRay()
     {

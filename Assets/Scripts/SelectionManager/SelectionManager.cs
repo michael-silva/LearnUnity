@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SelectionManager : BaseMonoBehavior
 {
-    private IRayProvider _rayProvider = new MainCameraRayCastProvider();
+    [InjectOnAwake]
+    private IRayProvider _rayProvider;
     [InjectOnAwake]
     private ISelector _selector;
     [InjectOnAwake]

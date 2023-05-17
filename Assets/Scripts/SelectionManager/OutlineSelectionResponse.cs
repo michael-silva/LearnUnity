@@ -8,21 +8,17 @@ public class OutlineSelectionResponse : BaseMonoBehavior, ISelectionResponse
     {
 
     }
-    private Outline GetOutlineComponent(Transform selection)
-    {
-        return selection.GetComponent<Outline>() ?? selection.GetComponentInChildren<Outline>();
-    }
 
     public void OnDeselect(Transform selection)
     {
-        var outline = GetOutlineComponent(selection);
+        var outline = selection.GetComponent<Outline>();
         if (!outline) return;
         outline.OutlineWidth = 0;
     }
 
     public void OnSelect(Transform selection)
     {
-        var outline = GetOutlineComponent(selection);
+        var outline = selection.GetComponent<Outline>();
         if (!outline) return;
         outline.OutlineWidth = 10;
     }

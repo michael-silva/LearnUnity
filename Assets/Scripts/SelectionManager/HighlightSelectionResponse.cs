@@ -6,6 +6,7 @@ public class HighlightSelectionResponse : BaseMonoBehavior, ISelectionResponse
 {
     [SerializeField] private Material defaultMaterial;
     [SerializeField] private Material highlightMaterial;
+
     public void OnDeselect(Transform selection)
     {
         var selectionRenderer = selection.GetComponent<Renderer>();

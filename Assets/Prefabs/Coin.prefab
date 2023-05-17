@@ -158,7 +158,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6289846652500361254}
   - component: {fileID: 7351784496171329691}
-  - component: {fileID: 3298626031847284457}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Selectable
@@ -195,26 +194,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6877ba68d3a0dcf4f968de9b187a677c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectionTransform: {fileID: 1660277310577869624}
   lookPercentageLabel: {fileID: 6466215248190331314}
   LookPercentage: 0
---- !u!114 &3298626031847284457
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2372854487602714457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 0.17211564, g: 1, b: 0.07075471, a: 1}
-  outlineWidth: 0
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!1 &4808861814965349944
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,6 +210,7 @@ GameObject:
   - component: {fileID: 4038229683550569466}
   - component: {fileID: 6529661115504043486}
   - component: {fileID: 3517148972149607979}
+  - component: {fileID: 6909662211012932878}
   m_Layer: 0
   m_Name: Render
   m_TagString: Selectable
@@ -326,6 +309,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3bce13998400624c9d0c02cf7abced7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6909662211012932878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4808861814965349944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0.17211564, g: 1, b: 0.07075471, a: 1}
+  outlineWidth: 0
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &7028748756863196245
 GameObject:
   m_ObjectHideFlags: 0

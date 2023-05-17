@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class CompositeSelectionResponse : MonoBehaviour, ISelectionResponse
 {
-    private List<ISelectionResponse> _selectionResponses = new List<ISelectionResponse>();
-    private int _currentIndex = 0;
+    private List<ISelectionResponse> _selectionResponses;
+    private int _currentIndex = -1;
 
     [SerializeField] private GameObject _selectionResponsesHolder;
 
     private void Start()
     {
         var selections = _selectionResponsesHolder.GetComponents<ISelectionResponse>().ToList();
+        _selectionResponses = selections;
     }
 
     [ContextMenu("Next")]
     public void Next()
     {
-        _currentIndex = _currentIndex + 1 % _selectionResponses.Count;
+        _currentIndex = (_currentIndex + 1) % _selectionResponses.Count;
     }
 
     public void OnDeselect(Transform selection)
@@ -31,11 +32,11 @@ public class CompositeSelectionResponse : MonoBehaviour, ISelectionResponse
     {
         if (!HasSelection()) return;
 
-        _selectionResponses[_currentIndex].OnDeselect(selection);
+        _selectionResponses[_currentIndex].OnSelect(selection);
     }
 
     bool HasSelection()
     {
-        return _currentIndex > -1 && _currentIndex < _selectionResponses.Count;
+        return _currentIndex > -1 && _currentIndex <= _selectionResponses.Count;
     }
 }

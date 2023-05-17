@@ -25,7 +25,7 @@ public class ResponsiveSelector : MonoBehaviour, ISelector
             if (lookPercentage > threshold && lookPercentage > closest)
             {
                 closest = lookPercentage;
-                _selection = selectables[i].transform;
+                _selection = selectables[i].GetSelection();
             }
         }
 
