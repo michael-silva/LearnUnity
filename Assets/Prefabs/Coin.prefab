@@ -211,6 +211,7 @@ GameObject:
   - component: {fileID: 6529661115504043486}
   - component: {fileID: 3517148972149607979}
   - component: {fileID: 6909662211012932878}
+  - component: {fileID: 1595444774}
   m_Layer: 0
   m_Name: Render
   m_TagString: Selectable
@@ -309,6 +310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3bce13998400624c9d0c02cf7abced7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedModifier: 1
+  coinName: Flop
 --- !u!114 &6909662211012932878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +330,20 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &1595444774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4808861814965349944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24bbea897a779984595331909fbb5867, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.5
+  magnitude: 0.5
 --- !u!1 &7028748756863196245
 GameObject:
   m_ObjectHideFlags: 0

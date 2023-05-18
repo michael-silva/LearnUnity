@@ -23,6 +23,14 @@ public class SelectionManager : BaseMonoBehavior
             if (selection) _selectionResponse.OnSelect(selection);
         }
         _currentSelection = selection;
+        if (_currentSelection && Input.GetMouseButtonDown(0))
+        {
+            var interaction = _currentSelection.GetComponent<IInteraction>();
+            if (interaction != null)
+            {
+                interaction.Interact();
+            }
+        }
 
     }
 
