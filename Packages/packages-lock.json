@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.michael-silva.unity-utils": {
+      "version": "file:C:/Users/PRINCIPAL/UnityProjects/UnityUtils",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.cinemachine": {
       "version": "2.8.9",
       "depth": 0,

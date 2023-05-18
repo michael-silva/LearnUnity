@@ -2,7 +2,8 @@
     "name": "Test",
     "rootNamespace": "",
     "references": [
-        "GUID:4834181e8104fbe429d235f1bc4c803c"
+        "GUID:4834181e8104fbe429d235f1bc4c803c",
+        "GUID:d7bc20b70a82f034eba99917390ddde0"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
