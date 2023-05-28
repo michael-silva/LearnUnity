@@ -34,14 +34,14 @@ public class PlayerY : PlayerBase
         {
             if (velocity.y < currentMaxVelocity)
                 velocity.y += axisVert * acceleration * Time.deltaTime;
-            onMoving.Invoke(GetNormalizedVelocity());
+            onMoving.Invoke(velocity.y);
         }
         else if (velocity.y > 0)
         {
             velocity.y -= deceleration * Time.deltaTime;
             if (velocity.y < 0)
                 velocity.y = 0;
-            onMoving.Invoke(GetNormalizedVelocity());
+            onMoving.Invoke(velocity.y);
         }
 
         if (axisHor != 0)
@@ -64,14 +64,14 @@ public class PlayerY : PlayerBase
         {
             if (velocity.y < currentMaxVelocity)
                 velocity.y += Mathf.Abs(axisVert) * acceleration * Time.deltaTime;
-            onMoving.Invoke(GetNormalizedVelocity());
+            onMoving.Invoke(velocity.y);
         }
         else if (velocity.y > 0)
         {
             velocity.y -= deceleration * Time.deltaTime;
             if (velocity.y < 0)
                 velocity.y = 0;
-            onMoving.Invoke(GetNormalizedVelocity());
+            onMoving.Invoke(velocity.y);
         }
 
         HandleRotation(axisVert, axisHor);

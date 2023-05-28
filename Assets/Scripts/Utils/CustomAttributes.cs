@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor;
+using UnityEngine.Scripting;
 using System.Reflection;
 
 public enum InjectType
@@ -19,3 +21,4 @@ public class InjectOnAwakeAttribute : Attribute
 
     public InjectType InjectType { get; private set; }
 }
+

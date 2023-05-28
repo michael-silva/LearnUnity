@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerManager : Singleton<PlayerManager>
 {
+    public UnityEvent OnChangeActivePlayer = new UnityEvent();
+
     [SerializeField] private List<GameObject> players;
     [SerializeField] private int playerActiveIndex;
 
@@ -25,6 +28,7 @@ public class PlayerManager : Singleton<PlayerManager>
             return;
         }
         playerActiveIndex = index;
+        OnChangeActivePlayer.Invoke();
     }
 
     private void Update()

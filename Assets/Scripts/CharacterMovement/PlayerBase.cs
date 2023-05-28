@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public abstract class PlayerBase : MonoBehaviour, ICharacter
 {
-    protected UnityEvent<Vector2> onMoving = new UnityEvent<Vector2>();
-    public UnityEvent<Vector2> OnMoving => onMoving;
+    protected UnityEvent<float> onMoving = new UnityEvent<float>();
+    public UnityEvent<float> OnMoving => onMoving;
 
 }

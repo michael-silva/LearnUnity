@@ -28,7 +28,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BlendAnimator
+  m_Name: BlendInPlaceAnimator
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Velocty
@@ -93,7 +93,7 @@ BlendTree:
     m_DirectBlendParameter: Velocty
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: c7256605e77f0cd4e9eac5f38c418445, type: 2}
+    m_Motion: {fileID: 7400000, guid: ac257110cb7bc50419bd85b0f84ca6bd, type: 2}
     m_Threshold: 0.3
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -101,7 +101,7 @@ BlendTree:
     m_DirectBlendParameter: Velocty
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 5b1189509283ce9429b7394d64742004, type: 2}
+    m_Motion: {fileID: 7400000, guid: 3dc9ec07ea9a2ca498820c41334216ec, type: 2}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
