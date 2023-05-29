@@ -10,7 +10,8 @@ public class GameInput : Singleton<GameInput>
     public UnityEvent<Vector2> OnPressMove = new UnityEvent<Vector2>();
     public UnityEvent OnStartRunning = new UnityEvent();
     public UnityEvent OnStopRunning = new UnityEvent();
-    public UnityEvent OnPressJump = new UnityEvent();
+    public UnityEvent OnStartJumping = new UnityEvent();
+    public UnityEvent OnStopJumping = new UnityEvent();
 
     public Vector2 GetMovementAxis()
     {
@@ -25,7 +26,11 @@ public class GameInput : Singleton<GameInput>
         OnPressMove.Invoke(movement);
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            OnPressJump.Invoke();
+            OnStartJumping.Invoke();
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            OnStopJumping.Invoke();
         }
         if (Input.GetKeyDown(KeyCode.Z))
         {

@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerY : PlayerBase
+public class PlayerY : CharacterBase
 {
     [SerializeField] private float maxWalkVelocity = 0.5f;
     [SerializeField] private float maxRunningVelocity = 1f;
     [SerializeField] private float acceleration = 2f;
     [SerializeField] private float deceleration = 2f;
     [SerializeField] private float turnSpeed = 90f;
-    private Vector2 velocity = Vector2.zero;
 
     // Start is called before the first frame update
     void Start()
@@ -34,14 +33,14 @@ public class PlayerY : PlayerBase
         {
             if (velocity.y < currentMaxVelocity)
                 velocity.y += axisVert * acceleration * Time.deltaTime;
-            onMoving.Invoke(velocity.y);
+            onMoving.Invoke();
         }
         else if (velocity.y > 0)
         {
             velocity.y -= deceleration * Time.deltaTime;
             if (velocity.y < 0)
                 velocity.y = 0;
-            onMoving.Invoke(velocity.y);
+            onMoving.Invoke();
         }
 
         if (axisHor != 0)
@@ -64,14 +63,14 @@ public class PlayerY : PlayerBase
         {
             if (velocity.y < currentMaxVelocity)
                 velocity.y += Mathf.Abs(axisVert) * acceleration * Time.deltaTime;
-            onMoving.Invoke(velocity.y);
+            onMoving.Invoke();
         }
         else if (velocity.y > 0)
         {
             velocity.y -= deceleration * Time.deltaTime;
             if (velocity.y < 0)
                 velocity.y = 0;
-            onMoving.Invoke(velocity.y);
+            onMoving.Invoke();
         }
 
         HandleRotation(axisVert, axisHor);

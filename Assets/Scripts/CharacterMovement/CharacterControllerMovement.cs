@@ -6,34 +6,29 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class CharacterControllerMovement : MonoBehaviour
 {
-    private PlayerBase player;
+    private CharacterBase character;
     private CharacterController characterController;
-    [SerializeField] private float walkSpeed = 2f;
-    [SerializeField] private float runSpeed = 7f;
-    [SerializeField] private float gravity = 9.8f;
+    [SerializeField] private bool applyRootMotion;
     [SerializeField] private Vector3 slopeDirection = new Vector3(0, -0.5f, 0);
-    private Vector3 movement = Vector3.zero;
-    private bool isRunning = false;
-    private bool isMoving = false;
-    private Timer inAirTimer = new Timer(0.5f);
+    private bool isMovingPressed = false;
 
     private void Start()
     {
-        player = GetComponent<PlayerBase>();
+        character = GetComponent<CharacterBase>();
         characterController = GetComponent<CharacterController>();
-        GameInput.Instance.OnPressMove.AddListener(HandleMovement);
-        GameInput.Instance.OnStartRunning.AddListener(() => isRunning = true);
-        GameInput.Instance.OnStopRunning.AddListener(() => isRunning = false);
+        characterController.SimpleMove(character.velocity);
+        character.isGrounded = characterController.isGrounded;
+        GameInput.Instance.OnPressMove.AddListener(HandleMovementInput);
+        GameInput.Instance.OnStartRunning.AddListener(() => character.isRunning = true);
+        GameInput.Instance.OnStopRunning.AddListener(() => character.isRunning = false);
     }
 
-    private void Update()
+    private void LateUpdate()
     {
-        if (!characterController.isGrounded) return;
-        float slopeDistance = 1;
-        if (Physics.Raycast(transform.position, transform.forward + slopeDirection, out var hit, slopeDistance)) return;
-
-
-        Debug.Log("Sloping");
+        if (!PlayerManager.Instance.IsPlayerActive(character.gameObject)) return;
+        if (applyRootMotion) return;
+        characterController.Move(character.velocity * Time.deltaTime);
+        character.isGrounded = characterController.isGrounded;
     }
 
     private void OnDrawGizmos()
@@ -42,49 +37,12 @@ public class CharacterControllerMovement : MonoBehaviour
         Gizmos.DrawRay(transform.position, transform.forward + slopeDirection);
     }
 
-    private float GetNormalizedVelocity()
+    private void HandleMovementInput(Vector2 inputMovement)
     {
-        float x = Mathf.Abs(movement.x) / runSpeed;
-        float z = Mathf.Abs(movement.z) / runSpeed;
-        return x > z ? x : z;
-    }
+        isMovingPressed = inputMovement != Vector2.zero;
 
-    private void HandleMovement(Vector2 inputMovement)
-    {
-        if (!PlayerManager.Instance.IsPlayerActive(player.gameObject)) return;
-        if (characterController.isGrounded)
-        {
-            if (inAirTimer.IsRunning())
-            {
-                inAirTimer.Stop();
-            }
-            // just to maintain isGrounded as true
-            movement.y = -0.5f;
-            movement.x = inputMovement.x * GetCurrentSpeed();
-            movement.z = inputMovement.y * GetCurrentSpeed();
-        }
-        else
-        {
-            if (!inAirTimer.IsRunning())
-            {
-                inAirTimer.Start();
-            }
-            inAirTimer.Tick();
+        character.velocity.x = inputMovement.x * character.GetCurrentSpeed();
+        character.velocity.z = inputMovement.y * character.GetCurrentSpeed();
 
-            if (inAirTimer.IsFinish())
-            {
-                movement.y -= gravity;
-                movement.x = 0;
-                movement.z = 0;
-            }
-        }
-
-        characterController.SimpleMove(movement);
-        player.OnMoving.Invoke(GetNormalizedVelocity());
-    }
-
-    private float GetCurrentSpeed()
-    {
-        return isRunning ? runSpeed : walkSpeed;
     }
 }

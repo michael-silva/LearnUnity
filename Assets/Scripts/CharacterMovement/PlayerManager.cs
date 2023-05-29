@@ -31,6 +31,11 @@ public class PlayerManager : Singleton<PlayerManager>
         OnChangeActivePlayer.Invoke();
     }
 
+    private void Start()
+    {
+        OnChangeActivePlayer.Invoke();
+    }
+
     private void Update()
     {
         for (int i = 0; i < 10; i++)

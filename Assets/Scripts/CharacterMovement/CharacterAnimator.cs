@@ -4,24 +4,49 @@ using UnityEngine;
 
 public class CharacterAnimator : MonoBehaviour
 {
-    [SerializeField] private PlayerBase player;
+    [SerializeField] private CharacterBase character;
     [SerializeField] private bool applyRootMotion;
     private Animator animator;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        player.OnMoving.AddListener(UpdateSpeed);
+        character.OnJumpStart.AddListener(StartJumping);
+        character.OnJumpEnd.AddListener(EndJumping);
     }
 
-    private void UpdateSpeed(float velocity)
+    private void Update()
     {
+        if (!PlayerManager.Instance.IsPlayerActive(character.gameObject)) return;
+        float velocity = GetNormalizedVelocity();
         animator.SetFloat("Velocity", velocity);
+    }
+
+
+    private void EndJumping(int variation)
+    {
+        animator.SetBool("IsJumping", false);
+        animator.SetInteger("JumpNumber", variation);
+    }
+
+
+    private void StartJumping(int variation)
+    {
+        animator.SetBool("IsJumping", true);
+        animator.SetInteger("JumpNumber", variation);
+    }
+
+    private float GetNormalizedVelocity()
+    {
+        var velocity = character.velocity;
+        float x = Mathf.Abs(velocity.x) / character.GetRunSpeed();
+        float z = Mathf.Abs(velocity.z) / character.GetRunSpeed();
+        return x > z ? x : z;
     }
 
     void OnAnimatorMove()
     {
         if (!applyRootMotion) return;
-        player.transform.position += animator.deltaPosition;
+        character.transform.position += animator.deltaPosition;
     }
 }

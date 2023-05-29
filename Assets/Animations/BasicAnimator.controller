@@ -37,7 +37,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 4
-    m_ConditionEvent: Velocty
+    m_ConditionEvent: Velocity
     m_EventTreshold: 0.06
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2206963240420200154}
@@ -62,7 +62,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 3
-    m_ConditionEvent: Velocty
+    m_ConditionEvent: Velocity
     m_EventTreshold: 0.3
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6463453803811360850}
@@ -87,7 +87,7 @@ AnimatorController:
   m_Name: BasicAnimator
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Velocty
+  - m_Name: Velocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -142,7 +142,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 4
-    m_ConditionEvent: Velocty
+    m_ConditionEvent: Velocity
     m_EventTreshold: 0.31
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 9079483558565316356}
@@ -194,7 +194,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 3
-    m_ConditionEvent: Velocty
+    m_ConditionEvent: Velocity
     m_EventTreshold: 0.05
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 9079483558565316356}

@@ -8,57 +8,42 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class KinematicsMovement : MonoBehaviour
 {
-    private PlayerBase player;
+    private CharacterBase character;
     private Rigidbody rigidBody;
-    [SerializeField] private float walkSpeed = 2f;
-    [SerializeField] private float runSpeed = 7f;
-    private Vector3 movement = Vector3.zero;
-    private bool isRunning = false;
+    [SerializeField] private bool applyRootMotion;
     private bool isMoving = false;
-    private bool isGrounded = false;
 
     private void Start()
     {
-        player = GetComponent<PlayerBase>();
+        character = GetComponent<CharacterBase>();
         rigidBody = GetComponent<Rigidbody>();
         GameInput.Instance.OnPressMove.AddListener(HandleMovement);
-        GameInput.Instance.OnStartRunning.AddListener(() => isRunning = true);
-        GameInput.Instance.OnStopRunning.AddListener(() => isRunning = false);
+        GameInput.Instance.OnStartRunning.AddListener(() => character.isRunning = true);
+        GameInput.Instance.OnStopRunning.AddListener(() => character.isRunning = false);
 
         Debug.LogWarning("The Kinematics movement don't work, it was the worst movement controller");
     }
 
     private void FixedUpdate()
     {
-        if (!PlayerManager.Instance.IsPlayerActive(player.gameObject)) return;
+        if (!PlayerManager.Instance.IsPlayerActive(character.gameObject)) return;
         if (!isMoving) return;
 
-        // float distanceToTheGround = GetComponent<Collider>().bounds.extents.y;
-        // isGrounded = Physics.Raycast(transform.position, Vector3.down, distanceToTheGround + 0.1f);
+        float distanceToTheGround = GetComponent<Collider>().bounds.extents.y;
+        character.isGrounded = Physics.Raycast(transform.position, Vector3.down, distanceToTheGround + 0.1f);
 
         // if (isGrounded)
         // {
-        float normalVelocity = GetNormalizedVelocity();
-        rigidBody.MovePosition(transform.position + movement * Time.deltaTime);
-        player.OnMoving.Invoke(normalVelocity);
+        if (!applyRootMotion)
+        {
+            rigidBody.MovePosition(transform.position + character.velocity * Time.deltaTime);
+        }
         // }
-    }
-
-    private float GetNormalizedVelocity()
-    {
-        float x = Mathf.Abs(movement.x) / runSpeed;
-        float z = Mathf.Abs(movement.z) / runSpeed;
-        return x > z ? x : z;
     }
 
     private void HandleMovement(Vector2 inputMovement)
     {
         isMoving = inputMovement != Vector2.zero;
-        movement = new Vector3(inputMovement.x, 0, inputMovement.y) * GetCurrentSpeed();
-    }
-
-    private float GetCurrentSpeed()
-    {
-        return isRunning ? runSpeed : walkSpeed;
+        character.velocity = new Vector3(inputMovement.x, 0, inputMovement.y) * character.GetCurrentSpeed();
     }
 }
