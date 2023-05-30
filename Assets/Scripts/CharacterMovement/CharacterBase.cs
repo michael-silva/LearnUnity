@@ -24,6 +24,10 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter
     {
         return runSpeed;
     }
+    public float GetWalkSpeed()
+    {
+        return walkSpeed;
+    }
 
     public float GetCurrentSpeed()
     {

@@ -11,6 +11,7 @@ public class CameraFollowPlayer : MonoBehaviour
     private void Start()
     {
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
+        UpdateCameraTarget();
         PlayerManager.Instance.OnChangeActivePlayer.AddListener(UpdateCameraTarget);
     }
 

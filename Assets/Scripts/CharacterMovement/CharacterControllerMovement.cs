@@ -3,6 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public static class CameraUtils
+{
+    public static Vector3 ConvertToCameraSpace(Vector3 vector)
+    {
+        var cameraForward = Camera.main.transform.forward;
+        var cameraRight = Camera.main.transform.right;
+
+        // remove the Y values to ignore up/down direction
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        var cameraForwardProduct = vector.z * cameraForward;
+        var cameraRightProduct = vector.x * cameraRight;
+
+        var result = cameraForwardProduct + cameraRightProduct;
+        result.y = vector.y;
+        return result;
+
+    }
+}
+
 [RequireComponent(typeof(CharacterController))]
 public class CharacterControllerMovement : MonoBehaviour
 {
@@ -10,7 +34,7 @@ public class CharacterControllerMovement : MonoBehaviour
     private CharacterController characterController;
     [SerializeField] private bool applyRootMotion;
     [SerializeField] private Vector3 slopeDirection = new Vector3(0, -0.5f, 0);
-    private bool isMovingPressed = false;
+    [SerializeField] private bool moveInCameraSpace = false;
 
     private void Start()
     {
@@ -27,7 +51,8 @@ public class CharacterControllerMovement : MonoBehaviour
     {
         if (!PlayerManager.Instance.IsPlayerActive(character.gameObject)) return;
         if (applyRootMotion) return;
-        characterController.Move(character.velocity * Time.deltaTime);
+        var movement = moveInCameraSpace ? CameraUtils.ConvertToCameraSpace(character.velocity) : character.velocity;
+        characterController.Move(movement * Time.deltaTime);
         character.isGrounded = characterController.isGrounded;
     }
 
@@ -39,8 +64,6 @@ public class CharacterControllerMovement : MonoBehaviour
 
     private void HandleMovementInput(Vector2 inputMovement)
     {
-        isMovingPressed = inputMovement != Vector2.zero;
-
         character.velocity.x = inputMovement.x * character.GetCurrentSpeed();
         character.velocity.z = inputMovement.y * character.GetCurrentSpeed();
 

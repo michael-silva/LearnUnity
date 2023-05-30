@@ -101,6 +101,7 @@ public class RotateTowardsInput : MonoBehaviour
 {
     private CharacterBase character;
     [SerializeField] private float turningDuration = 0.3f;
+    [SerializeField] private bool moveInCameraSpace = false;
     private SlerpQuaternion turningSlerp;
 
     private void Start()
@@ -119,7 +120,12 @@ public class RotateTowardsInput : MonoBehaviour
     private void HandleRotation(Vector2 movement)
     {
         if (movement == Vector2.zero) return;
-        var targetRotation = Quaternion.LookRotation(new Vector3(movement.x, 0, movement.y));
+        var rotation = new Vector3(movement.x, 0, movement.y);
+        if (moveInCameraSpace)
+        {
+            rotation = CameraUtils.ConvertToCameraSpace(rotation);
+        }
+        var targetRotation = Quaternion.LookRotation(rotation);
         turningSlerp = new SlerpQuaternion(transform.rotation, targetRotation, turningDuration);
         // transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
     }
