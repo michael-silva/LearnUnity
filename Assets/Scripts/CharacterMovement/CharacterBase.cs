@@ -11,6 +11,10 @@ public abstract class CharacterBase : MonoBehaviour, ICharacter
     public UnityEvent<int> OnJumpStart => onJumpStart;
     protected UnityEvent<int> onJumpEnd = new UnityEvent<int>();
     public UnityEvent<int> OnJumpEnd => onJumpEnd;
+    protected UnityEvent onFallStart = new UnityEvent();
+    public UnityEvent OnFallStart => onFallStart;
+    protected UnityEvent onFallEnd = new UnityEvent();
+    public UnityEvent OnFallEnd => onFallEnd;
 
     public Vector3 velocity = Vector3.zero;
     public bool isRunning = false;

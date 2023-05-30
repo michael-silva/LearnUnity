@@ -8,8 +8,6 @@ using System;
 public class RunState : CharacterState<CharacterSM>
 {
     [SerializeField] private float groundedGravity = -0.5f;
-    private SlerpQuaternion turningSlerp;
-    [SerializeField] private float turningDuration = 0.3f;
     public override void OnEnterState(CharacterSM character)
     {
     }

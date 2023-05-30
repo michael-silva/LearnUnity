@@ -6,11 +6,14 @@ using System;
 [Serializable]
 public class FallingState : CharacterState<CharacterSM>
 {
+    [SerializeField] private float deceleration = -0.8f;
     [SerializeField] private float gravity = -9.8f;
     private Vector3 movement = Vector3.zero;
 
     public override void OnEnterState(CharacterSM stateMachine)
     {
+        movement = Vector3.zero;
+        stateMachine.character.OnFallStart.Invoke();
     }
 
     public override void OnExitState(CharacterSM stateMachine)
@@ -23,21 +26,18 @@ public class FallingState : CharacterState<CharacterSM>
     {
         if (stateMachine.character.isGrounded)
         {
-            if (stateMachine.isJumpingPressed)
-                return stateMachine.JumpState;
-            if (stateMachine.movementInput == Vector2.zero)
-                return stateMachine.IdleState;
-            else
-            {
-                if (stateMachine.isRunningPressed)
-                    return stateMachine.RunState;
-                else
-                    return stateMachine.WalkState;
-            }
+            stateMachine.character.OnFallEnd.Invoke();
+            if (stateMachine.movementInput != Vector2.zero)
+                return stateMachine.WalkState;
+
+            return stateMachine.IdleState;
         }
 
-        HandleGravity(stateMachine.character);
 
+        stateMachine.character.velocity.x += deceleration * Time.deltaTime;
+        stateMachine.character.velocity.z += deceleration * Time.deltaTime;
+
+        HandleGravity(stateMachine.character);
         return this;
     }
 

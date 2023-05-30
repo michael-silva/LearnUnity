@@ -13,6 +13,8 @@ public class CharacterAnimator : MonoBehaviour
         animator = GetComponent<Animator>();
         character.OnJumpStart.AddListener(StartJumping);
         character.OnJumpEnd.AddListener(EndJumping);
+        character.OnFallStart.AddListener(StartFalling);
+        character.OnFallEnd.AddListener(EndFalling);
     }
 
     private void Update()
@@ -20,6 +22,18 @@ public class CharacterAnimator : MonoBehaviour
         if (!PlayerManager.Instance.IsPlayerActive(character.gameObject)) return;
         float velocity = GetNormalizedVelocity();
         animator.SetFloat("Velocity", velocity);
+    }
+
+
+    private void EndFalling()
+    {
+        animator.SetBool("IsFalling", false);
+    }
+
+
+    private void StartFalling()
+    {
+        animator.SetBool("IsFalling", true);
     }
 
 

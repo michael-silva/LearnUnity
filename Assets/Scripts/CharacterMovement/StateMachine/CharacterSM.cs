@@ -65,6 +65,8 @@ public class CharacterSM : MonoBehaviour, ICharacterStateMachine<CharacterSM>
 
     private void HandleRotation()
     {
+        if (movementInput == Vector2.zero) return;
+
         var rotation = new Vector3(movementInput.x, 0, movementInput.y);
         if (moveInCameraSpace)
         {
