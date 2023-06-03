@@ -15,9 +15,8 @@ public class GameInput : Singleton<GameInput>
 
     public Vector2 GetMovementAxis()
     {
-        var yAxis = Input.GetAxis(VERTICAL_AXIS);
-        var xAxis = Input.GetAxis(HORIZONTAL_AXIS);
-        return new Vector2(xAxis, yAxis);
+        var direction = new Vector2(Input.GetAxis(HORIZONTAL_AXIS), Input.GetAxis(VERTICAL_AXIS));
+        return direction.normalized;
     }
 
     private void Update()

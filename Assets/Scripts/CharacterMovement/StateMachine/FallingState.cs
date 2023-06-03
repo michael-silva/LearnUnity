@@ -41,7 +41,7 @@ public class FallingState : CharacterState<CharacterSM>
         return this;
     }
 
-    private void HandleGravity(CharacterBase character)
+    private void HandleGravity(CharacterModel character)
     {
         float previousY = movement.y;
         movement.y = movement.y + (gravity * Time.deltaTime);

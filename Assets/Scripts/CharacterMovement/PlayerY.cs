@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerY : CharacterBase
+public class PlayerY : MonoBehaviour, ICharacterComponent
 {
+    [SerializeField]
+    private CharacterModel _character = new CharacterModel();
+    public CharacterModel character { get { return _character; } }
+
     [SerializeField] private float maxWalkVelocity = 0.5f;
     [SerializeField] private float maxRunningVelocity = 1f;
     [SerializeField] private float acceleration = 2f;
@@ -17,7 +21,7 @@ public class PlayerY : CharacterBase
     }
     Vector2 GetNormalizedVelocity()
     {
-        return velocity;
+        return character.velocity;
     }
 
     void UpdateAlternative()
@@ -31,16 +35,16 @@ public class PlayerY : CharacterBase
 
         if (isMovingForward)
         {
-            if (velocity.y < currentMaxVelocity)
-                velocity.y += axisVert * acceleration * Time.deltaTime;
-            onMoving.Invoke();
+            if (character.velocity.y < currentMaxVelocity)
+                character.velocity.y += axisVert * acceleration * Time.deltaTime;
+            character.OnMoving.Invoke();
         }
-        else if (velocity.y > 0)
+        else if (character.velocity.y > 0)
         {
-            velocity.y -= deceleration * Time.deltaTime;
-            if (velocity.y < 0)
-                velocity.y = 0;
-            onMoving.Invoke();
+            character.velocity.y -= deceleration * Time.deltaTime;
+            if (character.velocity.y < 0)
+                character.velocity.y = 0;
+            character.OnMoving.Invoke();
         }
 
         if (axisHor != 0)
@@ -61,16 +65,16 @@ public class PlayerY : CharacterBase
 
         if (isMoving)
         {
-            if (velocity.y < currentMaxVelocity)
-                velocity.y += Mathf.Abs(axisVert) * acceleration * Time.deltaTime;
-            onMoving.Invoke();
+            if (character.velocity.y < currentMaxVelocity)
+                character.velocity.y += Mathf.Abs(axisVert) * acceleration * Time.deltaTime;
+            character.OnMoving.Invoke();
         }
-        else if (velocity.y > 0)
+        else if (character.velocity.y > 0)
         {
-            velocity.y -= deceleration * Time.deltaTime;
-            if (velocity.y < 0)
-                velocity.y = 0;
-            onMoving.Invoke();
+            character.velocity.y -= deceleration * Time.deltaTime;
+            if (character.velocity.y < 0)
+                character.velocity.y = 0;
+            character.OnMoving.Invoke();
         }
 
         HandleRotation(axisVert, axisHor);

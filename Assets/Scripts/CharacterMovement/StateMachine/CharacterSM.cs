@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSM : MonoBehaviour, ICharacterStateMachine<CharacterSM>
+[RequireComponent(typeof(CharacterController), typeof(ICharacterComponent))]
+public class CharacterSM : MonoBehaviour, ICharacterComponent, ICharacterStateMachine<CharacterSM>
 {
-    public bool moveInCameraSpace = false;
     public bool isJumpingPressed { get; private set; }
     public bool isRunningPressed { get; private set; }
     public Vector2 movementInput { get; private set; }
-    public CharacterBase character { get; private set; }
-    private SlerpQuaternion turningSlerp;
+    [SerializeField]
+    private CharacterModel _character = new CharacterModel();
+    public CharacterModel character { get { return _character; } }
+    private QuaternionLerp turningSlerp;
     [SerializeField] private float turningDuration = 0.3f;
 
     [SerializeField] private CharacterController characterController;
@@ -27,7 +29,6 @@ public class CharacterSM : MonoBehaviour, ICharacterStateMachine<CharacterSM>
 
     private void Start()
     {
-        character = GetComponent<CharacterBase>();
         characterController = GetComponent<CharacterController>();
 
         ChangeState(this.IdleState);
@@ -42,14 +43,14 @@ public class CharacterSM : MonoBehaviour, ICharacterStateMachine<CharacterSM>
 
     private void Update()
     {
-        if (!PlayerManager.Instance.IsPlayerActive(character.gameObject)) return;
+        if (!PlayerManager.Instance.IsPlayerActive(gameObject)) return;
         var state = currentState.Execute(this);
         if (state != currentState)
         {
             ChangeState(state);
         }
 
-        var movement = moveInCameraSpace
+        var movement = character.moveInCameraSpace
             ? CameraUtils.ConvertToCameraSpace(character.velocity)
             : character.velocity;
 
@@ -68,12 +69,15 @@ public class CharacterSM : MonoBehaviour, ICharacterStateMachine<CharacterSM>
         if (movementInput == Vector2.zero) return;
 
         var rotation = new Vector3(movementInput.x, 0, movementInput.y);
-        if (moveInCameraSpace)
+        if (character.moveInCameraSpace)
         {
             rotation = CameraUtils.ConvertToCameraSpace(rotation);
         }
         var targetRotation = Quaternion.LookRotation(rotation);
-        turningSlerp = new SlerpQuaternion(transform.rotation, targetRotation, turningDuration);
+        if (targetRotation != turningSlerp.finalValue)
+        {
+            turningSlerp = new QuaternionLerp(transform.rotation, targetRotation, turningDuration);
+        }
 
         turningSlerp?.Update();
         transform.rotation = turningSlerp.value;

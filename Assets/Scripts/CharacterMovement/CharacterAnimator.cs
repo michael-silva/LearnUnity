@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class CharacterAnimator : MonoBehaviour
 {
-    [SerializeField] private CharacterBase character;
-    [SerializeField] private bool applyRootMotion;
+    [SerializeField] private GameObject characterObject;
     private Animator animator;
+    private CharacterModel character;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        character = characterObject.GetComponent<ICharacterComponent>()?.character;
+        if (character == null)
+        {
+            Debug.LogError("The character object must had an ICharacter component");
+            return;
+        }
         character.OnJumpStart.AddListener(StartJumping);
         character.OnJumpEnd.AddListener(EndJumping);
         character.OnFallStart.AddListener(StartFalling);
@@ -19,7 +25,7 @@ public class CharacterAnimator : MonoBehaviour
 
     private void Update()
     {
-        if (!PlayerManager.Instance.IsPlayerActive(character.gameObject)) return;
+        if (!PlayerManager.Instance.IsPlayerActive(characterObject)) return;
         float velocity = GetNormalizedVelocity();
         animator.SetFloat("Velocity", velocity);
     }
@@ -60,7 +66,7 @@ public class CharacterAnimator : MonoBehaviour
 
     void OnAnimatorMove()
     {
-        if (!applyRootMotion) return;
-        character.transform.position += animator.deltaPosition;
+        if (!character.applyRootMotion) return;
+        characterObject.transform.position += animator.deltaPosition;
     }
 }

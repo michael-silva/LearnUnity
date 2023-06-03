@@ -59,7 +59,7 @@ public class JumpState : CharacterState<CharacterSM>
         return this;
     }
 
-    private void HandleGravity(CharacterBase character)
+    private void HandleGravity(CharacterModel character)
     {
         bool isFalling = movement.y <= 0;
         var currentJump = jumpSettings[currentJumpIndex];
